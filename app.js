@@ -6,8 +6,9 @@ const eventController = require("./controllers/EventController");
 require("./config/db");
 
 const app = express();
+const server_port = process.env.OPENSHIFT_NODEJS_PORT || 3301
+const server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
 
-const port = process.env.PORT || 3301;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -24,6 +25,6 @@ app
   .put(eventController.updateEvent)
   .delete(eventController.deleteEvent);
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+app.listen(server_port, server_ip_address, function () {
+  console.log( "Listening on " + server_ip_address + ", port " + server_port )
 });
